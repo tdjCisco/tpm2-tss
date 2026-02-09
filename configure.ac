@@ -788,7 +788,7 @@ AC_MSG_RESULT([
     maxloglevel:        $with_maxloglevel
     doxygen:            $DX_FLAG_doc $enable_doxygen_doc
     crypto backend:     $with_crypto
-    Post Quantum:       $enable_pqc
+    post quantum:       $enable_pqc
     sysconfdir:         $sysconfdir
     localstatedir:      $localstatedir
     runstatedir:        $runstatedir
