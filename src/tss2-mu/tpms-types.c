@@ -1578,6 +1578,48 @@ TPMS_MARSHAL_1(TPMS_SYMCIPHER_PARMS, sym, ADDR, Tss2_MU_TPMT_SYM_DEF_OBJECT_Mars
 
 TPMS_UNMARSHAL_1(TPMS_SYMCIPHER_PARMS, sym, Tss2_MU_TPMT_SYM_DEF_OBJECT_Unmarshal)
 
+TPMS_MARSHAL_2(TPMS_MLKEM_PARMS,
+               symmetric,
+               ADDR,
+               Tss2_MU_TPMT_SYM_DEF_OBJECT_Marshal,
+               scheme,
+               VAL,
+               Tss2_MU_TPM2_MLKEM_PARAMETER_SET_Marshal)
+
+TPMS_UNMARSHAL_2(TPMS_MLKEM_PARMS,
+                 symmetric,
+                 Tss2_MU_TPMT_SYM_DEF_OBJECT_Unmarshal,
+                 scheme,
+                 Tss2_MU_TPM2_MLKEM_PARAMETER_SET_Unmarshal)
+
+TPMS_MARSHAL_2(TPMS_MLDSA_PARMS,
+               scheme,
+               VAL,
+               Tss2_MU_TPM2_MLDSA_PARAMETER_SET_Marshal,
+               hashAlg,
+               VAL,
+               Tss2_MU_TPMI_ALG_HASH_Marshal)
+
+TPMS_UNMARSHAL_2(TPMS_MLDSA_PARMS,
+                 scheme,
+                 Tss2_MU_TPM2_MLDSA_PARAMETER_SET_Unmarshal,
+                 hashAlg,
+                 Tss2_MU_TPMI_ALG_HASH_Unmarshal)
+
+TPMS_MARSHAL_2(TPMS_HASH_MLDSA_PARMS,
+               scheme,
+               VAL,
+               Tss2_MU_TPM2_MLDSA_PARAMETER_SET_Marshal,
+               hashAlg,
+               VAL,
+               Tss2_MU_TPMI_ALG_HASH_Marshal)
+
+TPMS_UNMARSHAL_2(TPMS_HASH_MLDSA_PARMS,
+                 scheme,
+                 Tss2_MU_TPM2_MLDSA_PARAMETER_SET_Unmarshal,
+                 hashAlg,
+                 Tss2_MU_TPMI_ALG_HASH_Unmarshal)
+
 TPMS_MARSHAL_0(TPMS_EMPTY);
 
 TPMS_UNMARSHAL_0(TPMS_EMPTY);
