@@ -209,7 +209,8 @@ Esys_Encapsulate_Finish(ESYS_CONTEXT         *esysContext,
     if (secret != NULL) {
         *secret = calloc(1, sizeof(TPM2B_SHARED_SECRET));
         if (*secret == NULL) {
-            SAFE_FREE(*ciphertext);
+            if (ciphertext != NULL)
+                SAFE_FREE(*ciphertext);
             return_error(TSS2_ESYS_RC_MEMORY, "Out of memory");
         }
     }
