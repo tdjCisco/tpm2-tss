@@ -111,6 +111,11 @@ marshal_keyedhash(BYTE const *src, uint8_t buffer[], size_t buffer_size, size_t 
 }
 
 static TSS2_RC
+marshal_mlkem(BYTE const *src, uint8_t buffer[], size_t buffer_size, size_t *offset) {
+    return marshal_tab(src, buffer, buffer_size, offset, TPM2_MAX_MLKEM_CT_SIZE);
+}
+
+static TSS2_RC
 marshal_null(void const *src, uint8_t buffer[], size_t buffer_size, size_t *offset) {
     UNUSED(src);
     UNUSED(buffer);
@@ -199,6 +204,11 @@ unmarshal_symmetric(uint8_t const buffer[], size_t buffer_size, size_t *offset, 
 static TSS2_RC
 unmarshal_keyedhash(uint8_t const buffer[], size_t buffer_size, size_t *offset, BYTE *dest) {
     return unmarshal_tab(buffer, buffer_size, offset, dest, sizeof(TPM2B_DIGEST));
+}
+
+static TSS2_RC
+unmarshal_mlkem(uint8_t const buffer[], size_t buffer_size, size_t *offset, BYTE *dest) {
+    return unmarshal_tab(buffer, buffer_size, offset, dest, TPM2_MAX_MLKEM_CT_SIZE);
 }
 
 static TSS2_RC
@@ -880,7 +890,15 @@ TPMU_MARSHAL2(TPMU_SIGNATURE,
               TPM2_ALG_HMAC,
               ADDR,
               hmac,
-              Tss2_MU_TPMT_HA_Marshal)
+              Tss2_MU_TPMT_HA_Marshal,
+              TPM2_ALG_MLDSA,
+              ADDR,
+              mldsa,
+              Tss2_MU_TPM2B_SIGNATURE_MLDSA_Marshal,
+              TPM2_ALG_HASH_MLDSA,
+              ADDR,
+              hash_mldsa,
+              Tss2_MU_TPMS_SIGNATURE_HASH_MLDSA_Marshal)
 TPMU_UNMARSHAL2(TPMU_SIGNATURE,
                 TPM2_ALG_RSASSA,
                 rsassa,
@@ -902,7 +920,13 @@ TPMU_UNMARSHAL2(TPMU_SIGNATURE,
                 Tss2_MU_TPMS_SIGNATURE_ECC_Unmarshal,
                 TPM2_ALG_HMAC,
                 hmac,
-                Tss2_MU_TPMT_HA_Unmarshal)
+                Tss2_MU_TPMT_HA_Unmarshal,
+                TPM2_ALG_MLDSA,
+                mldsa,
+                Tss2_MU_TPM2B_SIGNATURE_MLDSA_Unmarshal,
+                TPM2_ALG_HASH_MLDSA,
+                hash_mldsa,
+                Tss2_MU_TPMS_SIGNATURE_HASH_MLDSA_Unmarshal)
 
 TPMU_MARSHAL2(TPMU_SENSITIVE_COMPOSITE,
               TPM2_ALG_RSA,
@@ -920,7 +944,15 @@ TPMU_MARSHAL2(TPMU_SENSITIVE_COMPOSITE,
               TPM2_ALG_SYMCIPHER,
               ADDR,
               sym,
-              Tss2_MU_TPM2B_SYM_KEY_Marshal)
+              Tss2_MU_TPM2B_SYM_KEY_Marshal,
+              TPM2_ALG_MLKEM,
+              ADDR,
+              mlkem,
+              Tss2_MU_TPM2B_PRIVATE_KEY_MLKEM_Marshal,
+              TPM2_ALG_MLDSA,
+              ADDR,
+              mldsa,
+              Tss2_MU_TPM2B_PRIVATE_KEY_MLDSA_Marshal)
 TPMU_UNMARSHAL2(TPMU_SENSITIVE_COMPOSITE,
                 TPM2_ALG_RSA,
                 rsa,
@@ -933,7 +965,13 @@ TPMU_UNMARSHAL2(TPMU_SENSITIVE_COMPOSITE,
                 Tss2_MU_TPM2B_SENSITIVE_DATA_Unmarshal,
                 TPM2_ALG_SYMCIPHER,
                 sym,
-                Tss2_MU_TPM2B_SYM_KEY_Unmarshal)
+                Tss2_MU_TPM2B_SYM_KEY_Unmarshal,
+                TPM2_ALG_MLKEM,
+                mlkem,
+                Tss2_MU_TPM2B_PRIVATE_KEY_MLKEM_Unmarshal,
+                TPM2_ALG_MLDSA,
+                mldsa,
+                Tss2_MU_TPM2B_PRIVATE_KEY_MLDSA_Unmarshal)
 
 TPMU_MARSHAL2(TPMU_ENCRYPTED_SECRET,
               TPM2_ALG_ECC,
@@ -951,7 +989,11 @@ TPMU_MARSHAL2(TPMU_ENCRYPTED_SECRET,
               TPM2_ALG_KEYEDHASH,
               ADDR,
               keyedHash[0],
-              marshal_keyedhash)
+              marshal_keyedhash,
+              TPM2_ALG_MLKEM,
+              ADDR,
+              mlkem[0],
+              marshal_mlkem)
 TPMU_UNMARSHAL2(TPMU_ENCRYPTED_SECRET,
                 TPM2_ALG_ECC,
                 ecc[0],
@@ -964,7 +1006,10 @@ TPMU_UNMARSHAL2(TPMU_ENCRYPTED_SECRET,
                 unmarshal_symmetric,
                 TPM2_ALG_KEYEDHASH,
                 keyedHash[0],
-                unmarshal_keyedhash)
+                unmarshal_keyedhash,
+                TPM2_ALG_MLKEM,
+                mlkem[0],
+                unmarshal_mlkem)
 
 TPMU_MARSHAL2(TPMU_PUBLIC_ID,
               TPM2_ALG_KEYEDHASH,
@@ -1038,7 +1083,7 @@ TPMU_MARSHAL2(TPMU_PUBLIC_PARMS,
               Tss2_MU_TPMS_MLDSA_PARMS_Marshal,
               TPM2_ALG_HASH_MLDSA,
               ADDR,
-              hashMldsaDetail,
+              hash_mldsaDetail,
               Tss2_MU_TPMS_HASH_MLDSA_PARMS_Marshal)
 TPMU_UNMARSHAL2(TPMU_PUBLIC_PARMS,
                 TPM2_ALG_KEYEDHASH,
@@ -1060,7 +1105,7 @@ TPMU_UNMARSHAL2(TPMU_PUBLIC_PARMS,
                 mldsaDetail,
                 Tss2_MU_TPMS_MLDSA_PARMS_Unmarshal,
                 TPM2_ALG_HASH_MLDSA,
-                hashMldsaDetail,
+                hash_mldsaDetail,
                 Tss2_MU_TPMS_HASH_MLDSA_PARMS_Unmarshal)
 
 TPMU_MARSHAL2(TPMU_NAME,

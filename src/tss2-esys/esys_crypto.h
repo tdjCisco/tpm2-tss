@@ -38,6 +38,7 @@
 #define iesys_crypto_init_internal           NULL;
 #define iesys_crypto_get_random2b_internal   NULL;
 #define iesys_crypto_rsa_pk_encrypt_internal NULL;
+#define iesys_crypto_mlkem_encapsulate_internal NULL;
 #endif
 
 #ifdef __cplusplus
@@ -90,6 +91,15 @@ TSS2_RC iesys_crypto_rsa_pk_encrypt(ESYS_CRYPTO_CALLBACKS *crypto_cb,
                                     BYTE                  *out_buffer,
                                     size_t                *out_size,
                                     const char            *label);
+
+TSS2_RC iesys_crypto_mlkem_encapsulate(ESYS_CRYPTO_CALLBACKS *crypto_cb,
+                                       TPM2B_PUBLIC          *pub_tpm_key,
+                                       size_t                 max_out_ciphertext,
+                                       BYTE                  *ciphertext,
+                                       size_t                *ciphertext_size,
+                                       size_t                 max_out_shared_secret,
+                                       BYTE                  *shared_secret,
+                                       size_t                *shared_secret_size);
 
 TSS2_RC iesys_crypto_hash_start(ESYS_CRYPTO_CALLBACKS     *crypto_cb,
                                 ESYS_CRYPTO_CONTEXT_BLOB **context,
