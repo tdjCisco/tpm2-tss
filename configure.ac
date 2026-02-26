@@ -186,12 +186,12 @@ AC_ARG_ENABLE([pqc],
             [enable_pqc=auto])
 AS_IF([test "x$enable_pqc" = "xauto"],
     [PKG_CHECK_MODULES([CRYPTO_PQC],
-                       [libcrypto >= 3.3.0],
+                       [libcrypto >= 3.5.0],
                        [enable_pqc=yes],
                        [AC_CHECK_HEADER([openssl/opensslv.h],
                            [AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[
                                #include <openssl/opensslv.h>
-                               #if OPENSSL_VERSION_NUMBER < 0x30300000L
+                               #if OPENSSL_VERSION_NUMBER < 0x30500000L
                                #error OpenSSL version too old
                                #endif
                            ]], [[]])],
@@ -203,7 +203,7 @@ AS_IF([test "x$enable_pqc" = "xyes"],
     [AC_DEFINE([ENABLE_PQC], [1], [Enable Post-Quantum Cryptography])])
 
 m4_define([ossl_min_version], [1.1.0])
-m4_define([ossl_pqc_min_version], [3.3.0])
+m4_define([ossl_pqc_min_version], [3.5.0])
 m4_define([ossl_pqc_err], [PQC support requires OpenSSL >= ossl_pqc_min_version])
 m4_define([ossl_err], [OpenSSL libcrypto is missing or version requirements not met. OpenSSL version must be >= ossl_min_version])
 AS_IF([test "x$enable_esys" = xyes],
@@ -238,7 +238,7 @@ AS_IF([test "x$enable_pqc" = "xyes"],
         [AC_CHECK_HEADER([openssl/opensslv.h],
             [AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[
                 #include <openssl/opensslv.h>
-                #if OPENSSL_VERSION_NUMBER < 0x30300000L
+                #if OPENSSL_VERSION_NUMBER < 0x30500000L
                 #error OpenSSL version too old
                 #endif
             ]], [[]])],
