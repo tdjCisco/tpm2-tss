@@ -1015,14 +1015,6 @@ iesys_cryptossl_mlkem_encapsulate(TPM2B_PUBLIC *pub_tpm_key,
                                   void         *userdata) {
     UNUSED(userdata);
 
-    TSS2_RC       r = TSS2_RC_SUCCESS;
-    EVP_PKEY     *pkey = NULL;
-    EVP_PKEY_CTX *ctx = NULL;
-    OSSL_PARAM params[2] = {0};
-    const char   *alg_name = NULL;
-    size_t        ct_len = 0;
-    size_t        ss_len = 0;
-
 #if OPENSSL_VERSION_NUMBER < 0x30500000L
     /* ML-KEM requires OpenSSL 3.5+ */
     UNUSED(pub_tpm_key);
@@ -1035,6 +1027,14 @@ iesys_cryptossl_mlkem_encapsulate(TPM2B_PUBLIC *pub_tpm_key,
     return_error(TSS2_ESYS_RC_NOT_IMPLEMENTED,
                  "ML-KEM encapsulation requires OpenSSL 3.5 or later.");
 #else
+    TSS2_RC       r = TSS2_RC_SUCCESS;
+    EVP_PKEY     *pkey = NULL;
+    EVP_PKEY_CTX *ctx = NULL;
+    OSSL_PARAM params[2] = {0};
+    const char   *alg_name = NULL;
+    size_t        ct_len = 0;
+    size_t        ss_len = 0;
+
     if (pub_tpm_key->publicArea.type != TPM2_ALG_MLKEM) {
         return_error(TSS2_ESYS_RC_BAD_VALUE, "Key is not an ML-KEM key.");
     }
