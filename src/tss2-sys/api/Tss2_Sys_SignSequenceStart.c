@@ -18,8 +18,7 @@ TSS2_RC
 Tss2_Sys_SignSequenceStart_Prepare(TSS2_SYS_CONTEXT          *sysContext,
                                    TPMI_DH_OBJECT             keyHandle,
                                    const TPM2B_AUTH          *auth,
-                                   const TPM2B_SIGNATURE_CTX *context)
-{
+                                   const TPM2B_SIGNATURE_CTX *context) {
     TSS2_SYS_CONTEXT_BLOB *ctx = syscontext_cast(sysContext);
     TSS2_RC                rval;
 
@@ -57,9 +56,7 @@ Tss2_Sys_SignSequenceStart_Prepare(TSS2_SYS_CONTEXT          *sysContext,
 }
 
 TSS2_RC
-Tss2_Sys_SignSequenceStart_Complete(TSS2_SYS_CONTEXT *sysContext,
-                                    TPMI_DH_OBJECT   *sequenceHandle)
-{
+Tss2_Sys_SignSequenceStart_Complete(TSS2_SYS_CONTEXT *sysContext, TPMI_DH_OBJECT *sequenceHandle) {
     TSS2_SYS_CONTEXT_BLOB *ctx = syscontext_cast(sysContext);
     TSS2_RC                rval;
 
@@ -81,8 +78,7 @@ Tss2_Sys_SignSequenceStart(TSS2_SYS_CONTEXT             *sysContext,
                            const TPM2B_AUTH             *auth,
                            const TPM2B_SIGNATURE_CTX    *context,
                            TPMI_DH_OBJECT               *sequenceHandle,
-                           TSS2L_SYS_AUTH_RESPONSE      *rspAuthsArray)
-{
+                           TSS2L_SYS_AUTH_RESPONSE      *rspAuthsArray) {
     TSS2_SYS_CONTEXT_BLOB *ctx = syscontext_cast(sysContext);
     TSS2_RC                rval;
 

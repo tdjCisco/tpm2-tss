@@ -50,7 +50,7 @@ Esys_Decapsulate(ESYS_CONTEXT               *esysContext,
                  ESYS_TR                     shandle2,
                  ESYS_TR                     shandle3,
                  const TPM2B_KEM_CIPHERTEXT *ciphertext,
-                 TPM2B_SHARED_SECRET        **secret) {
+                 TPM2B_SHARED_SECRET       **secret) {
     TSS2_RC r;
 
     r = Esys_Decapsulate_Async(esysContext, keyHandle, shandle1, shandle2, shandle3, ciphertext);
@@ -96,15 +96,15 @@ Esys_Decapsulate(ESYS_CONTEXT               *esysContext,
  * @retval TSS2_RCs produced by lower layers of the software stack.
  */
 TSS2_RC
-Esys_Decapsulate_Async(ESYS_CONTEXT                *esysContext,
-                       ESYS_TR                    keyHandle,
-                       ESYS_TR                    shandle1,
-                       ESYS_TR                    shandle2,
-                       ESYS_TR                    shandle3,
+Esys_Decapsulate_Async(ESYS_CONTEXT               *esysContext,
+                       ESYS_TR                     keyHandle,
+                       ESYS_TR                     shandle1,
+                       ESYS_TR                     shandle2,
+                       ESYS_TR                     shandle3,
                        const TPM2B_KEM_CIPHERTEXT *ciphertext) {
     TSS2_RC r;
-    LOG_TRACE("context=%p, keyHandle=%" PRIx32 ", ciphertext=%p",
-              esysContext, keyHandle, ciphertext);
+    LOG_TRACE("context=%p, keyHandle=%" PRIx32 ", ciphertext=%p", esysContext, keyHandle,
+              ciphertext);
     TSS2L_SYS_AUTH_COMMAND auths;
     RSRC_NODE_T           *keyHandleNode;
 
@@ -256,9 +256,9 @@ Esys_Decapsulate_Finish(ESYS_CONTEXT *esysContext, TPM2B_SHARED_SECRET **secret)
      * After the verification of the response we call the complete function
      * to deliver the result.
      */
-    r = Tss2_Sys_Decapsulate_Complete(esysContext->sys,
-                                       (secret != NULL) ? *secret : NULL);
-    goto_state_if_error(r, ESYS_STATE_INTERNALERROR, "Received error from SAPI unmarshaling", error_cleanup);
+    r = Tss2_Sys_Decapsulate_Complete(esysContext->sys, (secret != NULL) ? *secret : NULL);
+    goto_state_if_error(r, ESYS_STATE_INTERNALERROR, "Received error from SAPI unmarshaling",
+                        error_cleanup);
 
     esysContext->state = ESYS_STATE_INIT;
     return TSS2_RC_SUCCESS;

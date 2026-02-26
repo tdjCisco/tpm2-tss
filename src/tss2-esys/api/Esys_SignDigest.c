@@ -46,19 +46,19 @@
  * @retval TSS2_RCs produced by lower layers of the software stack.
  */
 TSS2_RC
-Esys_SignDigest(ESYS_CONTEXT               *esysContext,
-                 ESYS_TR                     keyHandle,
-                 ESYS_TR                     shandle1,
-                 ESYS_TR                     shandle2,
-                 ESYS_TR                     shandle3,
-                 const TPM2B_SIGNATURE_CTX  *context,
-                 const TPM2B_DIGEST         *digest,
-                 const TPMT_TK_HASHCHECK    *validation,
-                 TPMT_SIGNATURE            **signature) {
+Esys_SignDigest(ESYS_CONTEXT              *esysContext,
+                ESYS_TR                    keyHandle,
+                ESYS_TR                    shandle1,
+                ESYS_TR                    shandle2,
+                ESYS_TR                    shandle3,
+                const TPM2B_SIGNATURE_CTX *context,
+                const TPM2B_DIGEST        *digest,
+                const TPMT_TK_HASHCHECK   *validation,
+                TPMT_SIGNATURE           **signature) {
     TSS2_RC r;
 
-    r = Esys_SignDigest_Async(esysContext, keyHandle, shandle1, shandle2, shandle3,
-                              context, digest, validation);
+    r = Esys_SignDigest_Async(esysContext, keyHandle, shandle1, shandle2, shandle3, context, digest,
+                              validation);
     return_if_error(r, "Error in async function");
 
     /* Set the timeout to indefinite for now, since we want _Finish to block */
@@ -106,14 +106,14 @@ Esys_SignDigest(ESYS_CONTEXT               *esysContext,
  * @retval TSS2_RCs produced by lower layers of the software stack.
  */
 TSS2_RC
-Esys_SignDigest_Async(ESYS_CONTEXT               *esysContext,
-                      ESYS_TR                     keyHandle,
-                      ESYS_TR                     shandle1,
-                      ESYS_TR                     shandle2,
-                      ESYS_TR                     shandle3,
-                      const TPM2B_SIGNATURE_CTX  *context,
-                      const TPM2B_DIGEST         *digest,
-                      const TPMT_TK_HASHCHECK    *validation) {
+Esys_SignDigest_Async(ESYS_CONTEXT              *esysContext,
+                      ESYS_TR                    keyHandle,
+                      ESYS_TR                    shandle1,
+                      ESYS_TR                    shandle2,
+                      ESYS_TR                    shandle3,
+                      const TPM2B_SIGNATURE_CTX *context,
+                      const TPM2B_DIGEST        *digest,
+                      const TPMT_TK_HASHCHECK   *validation) {
     TSS2_RC r;
     LOG_TRACE("context=%p, keyHandle=%" PRIx32 ", context=%p, digest=%p, validation=%p",
               esysContext, keyHandle, context, digest, validation);
@@ -139,8 +139,8 @@ Esys_SignDigest_Async(ESYS_CONTEXT               *esysContext,
     return_state_if_error(r, ESYS_STATE_INIT, "keyHandle unknown.");
 
     /* Initial invocation of SAPI to prepare the command buffer with parameters */
-    r = Tss2_Sys_SignDigest_Prepare(esysContext->sys,
-        (keyHandleNode == NULL) ? TPM2_RH_NULL : keyHandleNode->rsrc.handle,
+    r = Tss2_Sys_SignDigest_Prepare(
+        esysContext->sys, (keyHandleNode == NULL) ? TPM2_RH_NULL : keyHandleNode->rsrc.handle,
         context, digest, validation);
     return_state_if_error(r, ESYS_STATE_INIT, "SAPI Prepare returned error.");
 
@@ -192,8 +192,7 @@ Esys_SignDigest_Async(ESYS_CONTEXT               *esysContext,
  * @retval TSS2_RCs produced by lower layers of the software stack.
  */
 TSS2_RC
-Esys_SignDigest_Finish(ESYS_CONTEXT    *esysContext,
-                        TPMT_SIGNATURE **signature) {
+Esys_SignDigest_Finish(ESYS_CONTEXT *esysContext, TPMT_SIGNATURE **signature) {
     TSS2_RC r;
     LOG_TRACE("context=%p, signature=%p", esysContext, signature);
 
@@ -269,8 +268,7 @@ Esys_SignDigest_Finish(ESYS_CONTEXT    *esysContext,
      * After the verification of the response we call the complete function
      * to deliver the result.
      */
-    r = Tss2_Sys_SignDigest_Complete(esysContext->sys,
-                                      (signature != NULL) ? *signature : NULL);
+    r = Tss2_Sys_SignDigest_Complete(esysContext->sys, (signature != NULL) ? *signature : NULL);
     goto_state_if_error(r, ESYS_STATE_INTERNALERROR, "Received error from SAPI unmarshaling",
                         error_cleanup);
 

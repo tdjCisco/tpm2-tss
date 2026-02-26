@@ -438,8 +438,8 @@ Esys_StartAuthSession_Finish(ESYS_CONTEXT *esysContext, ESYS_TR *sessionHandle) 
             if (tpmKey != ESYS_TR_NONE) {
                 /* For ML-KEM, the salt is the shared secret (fixed 32 bytes).
                  * For RSA/ECC, the salt size equals the key's nameAlg digest size. */
-                if (tpmKeyNode != NULL &&
-                    tpmKeyNode->rsrc.misc.rsrc_key_pub.publicArea.type == TPM2_ALG_MLKEM)
+                if (tpmKeyNode != NULL
+                    && tpmKeyNode->rsrc.misc.rsrc_key_pub.publicArea.type == TPM2_ALG_MLKEM)
                     salt_size = esysContext->salt.size;
                 else
                     salt_size = keyHash_size;

@@ -57,8 +57,8 @@ Esys_VerifySequenceStart(ESYS_CONTEXT               *esysContext,
                          ESYS_TR                    *sequenceHandle) {
     TSS2_RC r;
 
-    r = Esys_VerifySequenceStart_Async(esysContext, keyHandle, shandle1, shandle2, shandle3,
-                                        auth, hint, context);
+    r = Esys_VerifySequenceStart_Async(esysContext, keyHandle, shandle1, shandle2, shandle3, auth,
+                                       hint, context);
     return_if_error(r, "Error in async function");
 
     /* Set the timeout to indefinite for now, since we want _Finish to block */
@@ -114,8 +114,8 @@ Esys_VerifySequenceStart_Async(ESYS_CONTEXT               *esysContext,
                                const TPM2B_SIGNATURE_HINT *hint,
                                const TPM2B_SIGNATURE_CTX  *context) {
     TSS2_RC r;
-    LOG_TRACE("context=%p, keyHandle=%" PRIx32 ", auth=%p, hint=%p, context=%p",
-              esysContext, keyHandle, auth, hint, context);
+    LOG_TRACE("context=%p, keyHandle=%" PRIx32 ", auth=%p, hint=%p, context=%p", esysContext,
+              keyHandle, auth, hint, context);
     TSS2L_SYS_AUTH_COMMAND auths;
     RSRC_NODE_T           *keyHandleNode;
 
@@ -138,9 +138,9 @@ Esys_VerifySequenceStart_Async(ESYS_CONTEXT               *esysContext,
     return_state_if_error(r, ESYS_STATE_INIT, "keyHandle unknown.");
 
     /* Initial invocation of SAPI to prepare the command buffer with parameters */
-    r = Tss2_Sys_VerifySequenceStart_Prepare(esysContext->sys,
-        (keyHandleNode == NULL) ? TPM2_RH_NULL : keyHandleNode->rsrc.handle,
-        auth, hint, context);
+    r = Tss2_Sys_VerifySequenceStart_Prepare(
+        esysContext->sys, (keyHandleNode == NULL) ? TPM2_RH_NULL : keyHandleNode->rsrc.handle, auth,
+        hint, context);
     return_state_if_error(r, ESYS_STATE_INIT, "SAPI Prepare returned error.");
 
     /* Calculate the cpHash Values */

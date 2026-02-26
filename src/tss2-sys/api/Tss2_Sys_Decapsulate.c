@@ -17,8 +17,7 @@
 TSS2_RC
 Tss2_Sys_Decapsulate_Prepare(TSS2_SYS_CONTEXT           *sysContext,
                              TPMI_DH_OBJECT              keyHandle,
-                             const TPM2B_KEM_CIPHERTEXT *ciphertext)
-{
+                             const TPM2B_KEM_CIPHERTEXT *ciphertext) {
     TSS2_SYS_CONTEXT_BLOB *ctx = syscontext_cast(sysContext);
     TSS2_RC                rval;
 
@@ -45,9 +44,7 @@ Tss2_Sys_Decapsulate_Prepare(TSS2_SYS_CONTEXT           *sysContext,
 }
 
 TSS2_RC
-Tss2_Sys_Decapsulate_Complete(TSS2_SYS_CONTEXT    *sysContext,
-                              TPM2B_SHARED_SECRET *sharedSecret)
-{
+Tss2_Sys_Decapsulate_Complete(TSS2_SYS_CONTEXT *sysContext, TPM2B_SHARED_SECRET *sharedSecret) {
     TSS2_SYS_CONTEXT_BLOB *ctx = syscontext_cast(sysContext);
     TSS2_RC                rval;
 
@@ -59,7 +56,7 @@ Tss2_Sys_Decapsulate_Complete(TSS2_SYS_CONTEXT    *sysContext,
         return rval;
 
     return Tss2_MU_TPM2B_SHARED_SECRET_Unmarshal(ctx->cmdBuffer, ctx->maxCmdSize, &ctx->nextData,
-                                                  sharedSecret);
+                                                 sharedSecret);
 }
 
 TSS2_RC
@@ -68,8 +65,7 @@ Tss2_Sys_Decapsulate(TSS2_SYS_CONTEXT             *sysContext,
                      TSS2L_SYS_AUTH_COMMAND const *cmdAuthsArray,
                      const TPM2B_KEM_CIPHERTEXT   *ciphertext,
                      TPM2B_SHARED_SECRET          *sharedSecret,
-                     TSS2L_SYS_AUTH_RESPONSE      *rspAuthsArray)
-{
+                     TSS2L_SYS_AUTH_RESPONSE      *rspAuthsArray) {
     TSS2_SYS_CONTEXT_BLOB *ctx = syscontext_cast(sysContext);
     TSS2_RC                rval;
 

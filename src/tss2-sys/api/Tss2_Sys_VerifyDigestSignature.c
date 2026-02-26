@@ -19,8 +19,7 @@ Tss2_Sys_VerifyDigestSignature_Prepare(TSS2_SYS_CONTEXT          *sysContext,
                                        TPMI_DH_OBJECT             keyHandle,
                                        const TPM2B_SIGNATURE_CTX *context,
                                        const TPM2B_DIGEST        *digest,
-                                       const TPMT_SIGNATURE      *signature)
-{
+                                       const TPMT_SIGNATURE      *signature) {
     TSS2_SYS_CONTEXT_BLOB *ctx = syscontext_cast(sysContext);
     TSS2_RC                rval;
 
@@ -44,8 +43,8 @@ Tss2_Sys_VerifyDigestSignature_Prepare(TSS2_SYS_CONTEXT          *sysContext,
         ctx->decryptNull = 1;
         rval = Tss2_MU_UINT16_Marshal(0, ctx->cmdBuffer, ctx->maxCmdSize, &ctx->nextData);
     } else {
-        rval = Tss2_MU_TPM2B_DIGEST_Marshal(digest, ctx->cmdBuffer, ctx->maxCmdSize,
-                                            &ctx->nextData);
+        rval
+            = Tss2_MU_TPM2B_DIGEST_Marshal(digest, ctx->cmdBuffer, ctx->maxCmdSize, &ctx->nextData);
     }
 
     if (rval)
@@ -64,9 +63,8 @@ Tss2_Sys_VerifyDigestSignature_Prepare(TSS2_SYS_CONTEXT          *sysContext,
 }
 
 TSS2_RC
-Tss2_Sys_VerifyDigestSignature_Complete(TSS2_SYS_CONTEXT  *sysContext,
-                                        TPMT_TK_VERIFIED  *validation)
-{
+Tss2_Sys_VerifyDigestSignature_Complete(TSS2_SYS_CONTEXT *sysContext,
+                                        TPMT_TK_VERIFIED *validation) {
     TSS2_SYS_CONTEXT_BLOB *ctx = syscontext_cast(sysContext);
     TSS2_RC                rval;
 
@@ -89,16 +87,15 @@ Tss2_Sys_VerifyDigestSignature(TSS2_SYS_CONTEXT             *sysContext,
                                const TPM2B_DIGEST           *digest,
                                const TPMT_SIGNATURE         *signature,
                                TPMT_TK_VERIFIED             *validation,
-                               TSS2L_SYS_AUTH_RESPONSE      *rspAuthsArray)
-{
+                               TSS2L_SYS_AUTH_RESPONSE      *rspAuthsArray) {
     TSS2_SYS_CONTEXT_BLOB *ctx = syscontext_cast(sysContext);
     TSS2_RC                rval;
 
     if (!context || !signature)
         return TSS2_SYS_RC_BAD_REFERENCE;
 
-    rval = Tss2_Sys_VerifyDigestSignature_Prepare(sysContext, keyHandle, context, digest,
-                                                   signature);
+    rval
+        = Tss2_Sys_VerifyDigestSignature_Prepare(sysContext, keyHandle, context, digest, signature);
     if (rval)
         return rval;
 

@@ -1926,17 +1926,16 @@ TSS2_RC Tss2_Sys_ECC_Decrypt(TSS2_SYS_CONTEXT             *sysContext,
 
 TSS2_RC Tss2_Sys_Abort(TSS2_SYS_CONTEXT *sysContext);
 
-/* 
+/*
  * ============================================================================
  * TPM 2.0 v1.85 New Commands - ML-KEM and ML-DSA Support
  * ============================================================================
  */
-TSS2_RC Tss2_Sys_Encapsulate_Prepare(TSS2_SYS_CONTEXT *sysContext,
-                                     TPMI_DH_OBJECT    keyHandle);
+TSS2_RC Tss2_Sys_Encapsulate_Prepare(TSS2_SYS_CONTEXT *sysContext, TPMI_DH_OBJECT keyHandle);
 
-TSS2_RC Tss2_Sys_Encapsulate_Complete(TSS2_SYS_CONTEXT       *sysContext,
-                                      TPM2B_SHARED_SECRET    *sharedSecret,
-                                      TPM2B_KEM_CIPHERTEXT   *ciphertext);
+TSS2_RC Tss2_Sys_Encapsulate_Complete(TSS2_SYS_CONTEXT     *sysContext,
+                                      TPM2B_SHARED_SECRET  *sharedSecret,
+                                      TPM2B_KEM_CIPHERTEXT *ciphertext);
 
 TSS2_RC Tss2_Sys_Encapsulate(TSS2_SYS_CONTEXT             *sysContext,
                              TPMI_DH_OBJECT                keyHandle,
@@ -1959,14 +1958,13 @@ TSS2_RC Tss2_Sys_Decapsulate(TSS2_SYS_CONTEXT             *sysContext,
                              TPM2B_SHARED_SECRET          *sharedSecret,
                              TSS2L_SYS_AUTH_RESPONSE      *rspAuthsArray);
 
-TSS2_RC Tss2_Sys_SignDigest_Prepare(TSS2_SYS_CONTEXT           *sysContext,
-                                    TPMI_DH_OBJECT              keyHandle,
-                                    const TPM2B_SIGNATURE_CTX  *context,
-                                    const TPM2B_DIGEST         *digest,
-                                    const TPMT_TK_HASHCHECK    *validation);
+TSS2_RC Tss2_Sys_SignDigest_Prepare(TSS2_SYS_CONTEXT          *sysContext,
+                                    TPMI_DH_OBJECT             keyHandle,
+                                    const TPM2B_SIGNATURE_CTX *context,
+                                    const TPM2B_DIGEST        *digest,
+                                    const TPMT_TK_HASHCHECK   *validation);
 
-TSS2_RC Tss2_Sys_SignDigest_Complete(TSS2_SYS_CONTEXT *sysContext,
-                                     TPMT_SIGNATURE   *signature);
+TSS2_RC Tss2_Sys_SignDigest_Complete(TSS2_SYS_CONTEXT *sysContext, TPMT_SIGNATURE *signature);
 
 TSS2_RC Tss2_Sys_SignDigest(TSS2_SYS_CONTEXT             *sysContext,
                             TPMI_DH_OBJECT                keyHandle,
@@ -1983,8 +1981,8 @@ TSS2_RC Tss2_Sys_VerifyDigestSignature_Prepare(TSS2_SYS_CONTEXT          *sysCon
                                                const TPM2B_DIGEST        *digest,
                                                const TPMT_SIGNATURE      *signature);
 
-TSS2_RC Tss2_Sys_VerifyDigestSignature_Complete(TSS2_SYS_CONTEXT  *sysContext,
-                                                TPMT_TK_VERIFIED  *validation);
+TSS2_RC Tss2_Sys_VerifyDigestSignature_Complete(TSS2_SYS_CONTEXT *sysContext,
+                                                TPMT_TK_VERIFIED *validation);
 
 TSS2_RC Tss2_Sys_VerifyDigestSignature(TSS2_SYS_CONTEXT             *sysContext,
                                        TPMI_DH_OBJECT                keyHandle,
@@ -2011,11 +2009,11 @@ TSS2_RC Tss2_Sys_SignSequenceStart(TSS2_SYS_CONTEXT             *sysContext,
                                    TPMI_DH_OBJECT               *sequenceHandle,
                                    TSS2L_SYS_AUTH_RESPONSE      *rspAuthsArray);
 
-TSS2_RC Tss2_Sys_VerifySequenceStart_Prepare(TSS2_SYS_CONTEXT            *sysContext,
-                                             TPMI_DH_OBJECT               keyHandle,
-                                             const TPM2B_AUTH            *auth,
-                                             const TPM2B_SIGNATURE_HINT  *hint,
-                                             const TPM2B_SIGNATURE_CTX   *context);
+TSS2_RC Tss2_Sys_VerifySequenceStart_Prepare(TSS2_SYS_CONTEXT           *sysContext,
+                                             TPMI_DH_OBJECT              keyHandle,
+                                             const TPM2B_AUTH           *auth,
+                                             const TPM2B_SIGNATURE_HINT *hint,
+                                             const TPM2B_SIGNATURE_CTX  *context);
 
 TSS2_RC Tss2_Sys_VerifySequenceStart_Complete(TSS2_SYS_CONTEXT *sysContext,
                                               TPMI_DH_OBJECT   *sequenceHandle);
@@ -2029,10 +2027,10 @@ TSS2_RC Tss2_Sys_VerifySequenceStart(TSS2_SYS_CONTEXT             *sysContext,
                                      TPMI_DH_OBJECT               *sequenceHandle,
                                      TSS2L_SYS_AUTH_RESPONSE      *rspAuthsArray);
 
-TSS2_RC Tss2_Sys_SignSequenceComplete_Prepare(TSS2_SYS_CONTEXT        *sysContext,
-                                              TPMI_DH_OBJECT           sequenceHandle,
-                                              TPMI_DH_OBJECT           keyHandle,
-                                              const TPM2B_MAX_BUFFER  *buffer);
+TSS2_RC Tss2_Sys_SignSequenceComplete_Prepare(TSS2_SYS_CONTEXT       *sysContext,
+                                              TPMI_DH_OBJECT          sequenceHandle,
+                                              TPMI_DH_OBJECT          keyHandle,
+                                              const TPM2B_MAX_BUFFER *buffer);
 
 TSS2_RC Tss2_Sys_SignSequenceComplete_Complete(TSS2_SYS_CONTEXT *sysContext,
                                                TPMT_SIGNATURE   *signature);

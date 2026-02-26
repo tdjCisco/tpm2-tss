@@ -18,8 +18,7 @@ TSS2_RC
 Tss2_Sys_VerifySequenceComplete_Prepare(TSS2_SYS_CONTEXT     *sysContext,
                                         TPMI_DH_OBJECT        sequenceHandle,
                                         TPMI_DH_OBJECT        keyHandle,
-                                        const TPMT_SIGNATURE *signature)
-{
+                                        const TPMT_SIGNATURE *signature) {
     TSS2_SYS_CONTEXT_BLOB *ctx = syscontext_cast(sysContext);
     TSS2_RC                rval;
 
@@ -30,8 +29,7 @@ Tss2_Sys_VerifySequenceComplete_Prepare(TSS2_SYS_CONTEXT     *sysContext,
     if (rval)
         return rval;
 
-    rval = Tss2_MU_UINT32_Marshal(sequenceHandle, ctx->cmdBuffer, ctx->maxCmdSize,
-                                  &ctx->nextData);
+    rval = Tss2_MU_UINT32_Marshal(sequenceHandle, ctx->cmdBuffer, ctx->maxCmdSize, &ctx->nextData);
     if (rval)
         return rval;
 
@@ -53,8 +51,7 @@ Tss2_Sys_VerifySequenceComplete_Prepare(TSS2_SYS_CONTEXT     *sysContext,
 
 TSS2_RC
 Tss2_Sys_VerifySequenceComplete_Complete(TSS2_SYS_CONTEXT *sysContext,
-                                         TPMT_TK_VERIFIED *validation)
-{
+                                         TPMT_TK_VERIFIED *validation) {
     TSS2_SYS_CONTEXT_BLOB *ctx = syscontext_cast(sysContext);
     TSS2_RC                rval;
 
@@ -76,16 +73,15 @@ Tss2_Sys_VerifySequenceComplete(TSS2_SYS_CONTEXT             *sysContext,
                                 TSS2L_SYS_AUTH_COMMAND const *cmdAuthsArray,
                                 const TPMT_SIGNATURE         *signature,
                                 TPMT_TK_VERIFIED             *validation,
-                                TSS2L_SYS_AUTH_RESPONSE      *rspAuthsArray)
-{
+                                TSS2L_SYS_AUTH_RESPONSE      *rspAuthsArray) {
     TSS2_SYS_CONTEXT_BLOB *ctx = syscontext_cast(sysContext);
     TSS2_RC                rval;
 
     if (!signature)
         return TSS2_SYS_RC_BAD_REFERENCE;
 
-    rval = Tss2_Sys_VerifySequenceComplete_Prepare(sysContext, sequenceHandle, keyHandle,
-                                                    signature);
+    rval
+        = Tss2_Sys_VerifySequenceComplete_Prepare(sysContext, sequenceHandle, keyHandle, signature);
     if (rval)
         return rval;
 

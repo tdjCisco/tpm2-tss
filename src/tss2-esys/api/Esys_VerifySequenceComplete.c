@@ -45,18 +45,18 @@
  * @retval TSS2_RCs produced by lower layers of the software stack.
  */
 TSS2_RC
-Esys_VerifySequenceComplete(ESYS_CONTEXT        *esysContext,
-                            ESYS_TR              sequenceHandle,
-                            ESYS_TR              keyHandle,
-                            ESYS_TR              shandle1,
-                            ESYS_TR              shandle2,
-                            ESYS_TR              shandle3,
+Esys_VerifySequenceComplete(ESYS_CONTEXT         *esysContext,
+                            ESYS_TR               sequenceHandle,
+                            ESYS_TR               keyHandle,
+                            ESYS_TR               shandle1,
+                            ESYS_TR               shandle2,
+                            ESYS_TR               shandle3,
                             const TPMT_SIGNATURE *signature,
                             TPMT_TK_VERIFIED    **validation) {
     TSS2_RC r;
 
     r = Esys_VerifySequenceComplete_Async(esysContext, sequenceHandle, keyHandle, shandle1,
-                                           shandle2, shandle3, signature);
+                                          shandle2, shandle3, signature);
     return_if_error(r, "Error in async function");
 
     /* Set the timeout to indefinite for now, since we want _Finish to block */
@@ -100,12 +100,12 @@ Esys_VerifySequenceComplete(ESYS_CONTEXT        *esysContext,
  * @retval TSS2_RCs produced by lower layers of the software stack.
  */
 TSS2_RC
-Esys_VerifySequenceComplete_Async(ESYS_CONTEXT        *esysContext,
-                                  ESYS_TR              sequenceHandle,
-                                  ESYS_TR              keyHandle,
-                                  ESYS_TR              shandle1,
-                                  ESYS_TR              shandle2,
-                                  ESYS_TR              shandle3,
+Esys_VerifySequenceComplete_Async(ESYS_CONTEXT         *esysContext,
+                                  ESYS_TR               sequenceHandle,
+                                  ESYS_TR               keyHandle,
+                                  ESYS_TR               shandle1,
+                                  ESYS_TR               shandle2,
+                                  ESYS_TR               shandle3,
                                   const TPMT_SIGNATURE *signature) {
     TSS2_RC r;
     LOG_TRACE("context=%p, sequenceHandle=%" PRIx32 ", keyHandle=%" PRIx32 ", signature=%p",
@@ -136,7 +136,8 @@ Esys_VerifySequenceComplete_Async(ESYS_CONTEXT        *esysContext,
     return_state_if_error(r, ESYS_STATE_INIT, "keyHandle unknown.");
 
     /* Initial invocation of SAPI to prepare the command buffer with parameters */
-    r = Tss2_Sys_VerifySequenceComplete_Prepare(esysContext->sys,
+    r = Tss2_Sys_VerifySequenceComplete_Prepare(
+        esysContext->sys,
         (sequenceHandleNode == NULL) ? TPM2_RH_NULL : sequenceHandleNode->rsrc.handle,
         (keyHandleNode == NULL) ? TPM2_RH_NULL : keyHandleNode->rsrc.handle, signature);
     return_state_if_error(r, ESYS_STATE_INIT, "SAPI Prepare returned error.");
@@ -189,7 +190,7 @@ Esys_VerifySequenceComplete_Async(ESYS_CONTEXT        *esysContext,
  * @retval TSS2_RCs produced by lower layers of the software stack.
  */
 TSS2_RC
-Esys_VerifySequenceComplete_Finish(ESYS_CONTEXT *esysContext, TPMT_TK_VERIFIED  **validation) {
+Esys_VerifySequenceComplete_Finish(ESYS_CONTEXT *esysContext, TPMT_TK_VERIFIED **validation) {
     TSS2_RC r;
     LOG_TRACE("context=%p, validation=%p", esysContext, validation);
 

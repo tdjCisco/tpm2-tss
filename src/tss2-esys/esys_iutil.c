@@ -428,9 +428,10 @@ iesys_compute_encrypted_salt(ESYS_CONTEXT           *esys_context,
         /* Perform ML-KEM encapsulation against the public key.
          * This produces a ciphertext (sent to TPM as encryptedSalt)
          * and a shared secret (used as the salt for session key derivation). */
-        r = iesys_crypto_mlkem_encapsulate( &esys_context->crypto_backend, &pub,
-            sizeof(TPMU_ENCRYPTED_SECRET), (BYTE *)&encryptedSalt->secret[0], &cSize,
-            sizeof(esys_context->salt.buffer), &esys_context->salt.buffer[0], &ss_size);
+        r = iesys_crypto_mlkem_encapsulate(
+            &esys_context->crypto_backend, &pub, sizeof(TPMU_ENCRYPTED_SECRET),
+            (BYTE *)&encryptedSalt->secret[0], &cSize, sizeof(esys_context->salt.buffer),
+            &esys_context->salt.buffer[0], &ss_size);
         return_if_error(r, "During ML-KEM encapsulation.");
 
         encryptedSalt->size = cSize;

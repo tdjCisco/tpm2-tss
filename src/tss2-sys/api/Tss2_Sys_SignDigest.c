@@ -15,12 +15,11 @@
 #include "tss2_tpm2_types.h" // for TPM2B_SIGNATURE_CTX, TPM2B_DIGEST, TPMT_SIGNATURE
 
 TSS2_RC
-Tss2_Sys_SignDigest_Prepare(TSS2_SYS_CONTEXT           *sysContext,
-                            TPMI_DH_OBJECT              keyHandle,
-                            const TPM2B_SIGNATURE_CTX  *context,
-                            const TPM2B_DIGEST         *digest,
-                            const TPMT_TK_HASHCHECK    *validation)
-{
+Tss2_Sys_SignDigest_Prepare(TSS2_SYS_CONTEXT          *sysContext,
+                            TPMI_DH_OBJECT             keyHandle,
+                            const TPM2B_SIGNATURE_CTX *context,
+                            const TPM2B_DIGEST        *digest,
+                            const TPMT_TK_HASHCHECK   *validation) {
     TSS2_SYS_CONTEXT_BLOB *ctx = syscontext_cast(sysContext);
     TSS2_RC                rval;
 
@@ -44,8 +43,8 @@ Tss2_Sys_SignDigest_Prepare(TSS2_SYS_CONTEXT           *sysContext,
         ctx->decryptNull = 1;
         rval = Tss2_MU_UINT16_Marshal(0, ctx->cmdBuffer, ctx->maxCmdSize, &ctx->nextData);
     } else {
-        rval = Tss2_MU_TPM2B_DIGEST_Marshal(digest, ctx->cmdBuffer, ctx->maxCmdSize,
-                                            &ctx->nextData);
+        rval
+            = Tss2_MU_TPM2B_DIGEST_Marshal(digest, ctx->cmdBuffer, ctx->maxCmdSize, &ctx->nextData);
     }
 
     if (rval)
@@ -64,9 +63,7 @@ Tss2_Sys_SignDigest_Prepare(TSS2_SYS_CONTEXT           *sysContext,
 }
 
 TSS2_RC
-Tss2_Sys_SignDigest_Complete(TSS2_SYS_CONTEXT *sysContext,
-                             TPMT_SIGNATURE   *signature)
-{
+Tss2_Sys_SignDigest_Complete(TSS2_SYS_CONTEXT *sysContext, TPMT_SIGNATURE *signature) {
     TSS2_SYS_CONTEXT_BLOB *ctx = syscontext_cast(sysContext);
     TSS2_RC                rval;
 
@@ -89,8 +86,7 @@ Tss2_Sys_SignDigest(TSS2_SYS_CONTEXT             *sysContext,
                     const TPM2B_DIGEST           *digest,
                     const TPMT_TK_HASHCHECK      *validation,
                     TPMT_SIGNATURE               *signature,
-                    TSS2L_SYS_AUTH_RESPONSE      *rspAuthsArray)
-{
+                    TSS2L_SYS_AUTH_RESPONSE      *rspAuthsArray) {
     TSS2_SYS_CONTEXT_BLOB *ctx = syscontext_cast(sysContext);
     TSS2_RC                rval;
 

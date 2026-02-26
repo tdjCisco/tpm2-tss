@@ -46,19 +46,19 @@
  * @retval TSS2_RCs produced by lower layers of the software stack.
  */
 TSS2_RC
-Esys_VerifyDigestSignature(ESYS_CONTEXT                *esysContext,
-                            ESYS_TR                      keyHandle,
-                            ESYS_TR                      shandle1,
-                            ESYS_TR                      shandle2,
-                            ESYS_TR                      shandle3,
-                            const TPM2B_SIGNATURE_CTX   *context,
-                            const TPM2B_DIGEST          *digest,
-                            const TPMT_SIGNATURE        *signature,
-                            TPMT_TK_VERIFIED           **validation) {
+Esys_VerifyDigestSignature(ESYS_CONTEXT              *esysContext,
+                           ESYS_TR                    keyHandle,
+                           ESYS_TR                    shandle1,
+                           ESYS_TR                    shandle2,
+                           ESYS_TR                    shandle3,
+                           const TPM2B_SIGNATURE_CTX *context,
+                           const TPM2B_DIGEST        *digest,
+                           const TPMT_SIGNATURE      *signature,
+                           TPMT_TK_VERIFIED         **validation) {
     TSS2_RC r;
 
     r = Esys_VerifyDigestSignature_Async(esysContext, keyHandle, shandle1, shandle2, shandle3,
-                                          context, digest, signature);
+                                         context, digest, signature);
     return_if_error(r, "Error in async function");
 
     /* Set the timeout to indefinite for now, since we want _Finish to block */
@@ -103,17 +103,17 @@ Esys_VerifyDigestSignature(ESYS_CONTEXT                *esysContext,
  * @retval TSS2_RCs produced by lower layers of the software stack.
  */
 TSS2_RC
-Esys_VerifyDigestSignature_Async(ESYS_CONTEXT                *esysContext,
-                                 ESYS_TR                      keyHandle,
-                                 ESYS_TR                      shandle1,
-                                 ESYS_TR                      shandle2,
-                                 ESYS_TR                      shandle3,
-                                 const TPM2B_SIGNATURE_CTX   *context,
-                                 const TPM2B_DIGEST          *digest,
-                                 const TPMT_SIGNATURE        *signature) {
+Esys_VerifyDigestSignature_Async(ESYS_CONTEXT              *esysContext,
+                                 ESYS_TR                    keyHandle,
+                                 ESYS_TR                    shandle1,
+                                 ESYS_TR                    shandle2,
+                                 ESYS_TR                    shandle3,
+                                 const TPM2B_SIGNATURE_CTX *context,
+                                 const TPM2B_DIGEST        *digest,
+                                 const TPMT_SIGNATURE      *signature) {
     TSS2_RC r;
-    LOG_TRACE("context=%p, keyHandle=%" PRIx32 ", context=%p, digest=%p, signature=%p",
-              esysContext, keyHandle, context, digest, signature);
+    LOG_TRACE("context=%p, keyHandle=%" PRIx32 ", context=%p, digest=%p, signature=%p", esysContext,
+              keyHandle, context, digest, signature);
     TSS2L_SYS_AUTH_COMMAND auths;
     RSRC_NODE_T           *keyHandleNode;
 
@@ -136,8 +136,8 @@ Esys_VerifyDigestSignature_Async(ESYS_CONTEXT                *esysContext,
     return_state_if_error(r, ESYS_STATE_INIT, "keyHandle unknown.");
 
     /* Initial invocation of SAPI to prepare the command buffer with parameters */
-    r = Tss2_Sys_VerifyDigestSignature_Prepare(esysContext->sys,
-        (keyHandleNode == NULL) ? TPM2_RH_NULL : keyHandleNode->rsrc.handle,
+    r = Tss2_Sys_VerifyDigestSignature_Prepare(
+        esysContext->sys, (keyHandleNode == NULL) ? TPM2_RH_NULL : keyHandleNode->rsrc.handle,
         context, digest, signature);
     return_state_if_error(r, ESYS_STATE_INIT, "SAPI Prepare returned error.");
 

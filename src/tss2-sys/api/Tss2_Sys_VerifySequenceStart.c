@@ -15,12 +15,11 @@
 #include "tss2_tpm2_types.h" // for TPM2B_SIGNATURE_CTX, TPM2B_AUTH, TPMI_DH_OBJECT
 
 TSS2_RC
-Tss2_Sys_VerifySequenceStart_Prepare(TSS2_SYS_CONTEXT            *sysContext,
-                                     TPMI_DH_OBJECT               keyHandle,
-                                     const TPM2B_AUTH            *auth,
-                                     const TPM2B_SIGNATURE_HINT  *hint,
-                                     const TPM2B_SIGNATURE_CTX   *context)
-{
+Tss2_Sys_VerifySequenceStart_Prepare(TSS2_SYS_CONTEXT           *sysContext,
+                                     TPMI_DH_OBJECT              keyHandle,
+                                     const TPM2B_AUTH           *auth,
+                                     const TPM2B_SIGNATURE_HINT *hint,
+                                     const TPM2B_SIGNATURE_CTX  *context) {
     TSS2_SYS_CONTEXT_BLOB *ctx = syscontext_cast(sysContext);
     TSS2_RC                rval;
 
@@ -49,7 +48,7 @@ Tss2_Sys_VerifySequenceStart_Prepare(TSS2_SYS_CONTEXT            *sysContext,
         rval = Tss2_MU_UINT16_Marshal(0, ctx->cmdBuffer, ctx->maxCmdSize, &ctx->nextData);
     } else {
         rval = Tss2_MU_TPM2B_SIGNATURE_HINT_Marshal(hint, ctx->cmdBuffer, ctx->maxCmdSize,
-                                                     &ctx->nextData);
+                                                    &ctx->nextData);
     }
 
     if (rval)
@@ -69,8 +68,7 @@ Tss2_Sys_VerifySequenceStart_Prepare(TSS2_SYS_CONTEXT            *sysContext,
 
 TSS2_RC
 Tss2_Sys_VerifySequenceStart_Complete(TSS2_SYS_CONTEXT *sysContext,
-                                      TPMI_DH_OBJECT   *sequenceHandle)
-{
+                                      TPMI_DH_OBJECT   *sequenceHandle) {
     TSS2_SYS_CONTEXT_BLOB *ctx = syscontext_cast(sysContext);
     TSS2_RC                rval;
 
@@ -93,8 +91,7 @@ Tss2_Sys_VerifySequenceStart(TSS2_SYS_CONTEXT             *sysContext,
                              const TPM2B_SIGNATURE_HINT   *hint,
                              const TPM2B_SIGNATURE_CTX    *context,
                              TPMI_DH_OBJECT               *sequenceHandle,
-                             TSS2L_SYS_AUTH_RESPONSE      *rspAuthsArray)
-{
+                             TSS2L_SYS_AUTH_RESPONSE      *rspAuthsArray) {
     TSS2_SYS_CONTEXT_BLOB *ctx = syscontext_cast(sysContext);
     TSS2_RC                rval;
 

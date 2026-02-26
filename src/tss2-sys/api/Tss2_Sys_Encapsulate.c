@@ -15,9 +15,7 @@
 #include "tss2_tpm2_types.h" // for TPM2B_SHARED_SECRET, TPM2B_KEM_CIPHERTEXT, TPMI_DH_OBJECT
 
 TSS2_RC
-Tss2_Sys_Encapsulate_Prepare(TSS2_SYS_CONTEXT *sysContext,
-                             TPMI_DH_OBJECT    keyHandle)
-{
+Tss2_Sys_Encapsulate_Prepare(TSS2_SYS_CONTEXT *sysContext, TPMI_DH_OBJECT keyHandle) {
     TSS2_SYS_CONTEXT_BLOB *ctx = syscontext_cast(sysContext);
     TSS2_RC                rval;
 
@@ -39,10 +37,9 @@ Tss2_Sys_Encapsulate_Prepare(TSS2_SYS_CONTEXT *sysContext,
 }
 
 TSS2_RC
-Tss2_Sys_Encapsulate_Complete(TSS2_SYS_CONTEXT       *sysContext,
-                              TPM2B_SHARED_SECRET    *sharedSecret,
-                              TPM2B_KEM_CIPHERTEXT   *ciphertext)
-{
+Tss2_Sys_Encapsulate_Complete(TSS2_SYS_CONTEXT     *sysContext,
+                              TPM2B_SHARED_SECRET  *sharedSecret,
+                              TPM2B_KEM_CIPHERTEXT *ciphertext) {
     TSS2_SYS_CONTEXT_BLOB *ctx = syscontext_cast(sysContext);
     TSS2_RC                rval;
 
@@ -54,12 +51,12 @@ Tss2_Sys_Encapsulate_Complete(TSS2_SYS_CONTEXT       *sysContext,
         return rval;
 
     rval = Tss2_MU_TPM2B_SHARED_SECRET_Unmarshal(ctx->cmdBuffer, ctx->maxCmdSize, &ctx->nextData,
-                                                  sharedSecret);
+                                                 sharedSecret);
     if (rval)
         return rval;
 
     return Tss2_MU_TPM2B_KEM_CIPHERTEXT_Unmarshal(ctx->cmdBuffer, ctx->maxCmdSize, &ctx->nextData,
-                                                   ciphertext);
+                                                  ciphertext);
 }
 
 TSS2_RC
@@ -68,8 +65,7 @@ Tss2_Sys_Encapsulate(TSS2_SYS_CONTEXT             *sysContext,
                      TSS2L_SYS_AUTH_COMMAND const *cmdAuthsArray,
                      TPM2B_SHARED_SECRET          *sharedSecret,
                      TPM2B_KEM_CIPHERTEXT         *ciphertext,
-                     TSS2L_SYS_AUTH_RESPONSE      *rspAuthsArray)
-{
+                     TSS2L_SYS_AUTH_RESPONSE      *rspAuthsArray) {
     TSS2_SYS_CONTEXT_BLOB *ctx = syscontext_cast(sysContext);
     TSS2_RC                rval;
 

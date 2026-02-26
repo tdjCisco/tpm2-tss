@@ -1030,7 +1030,7 @@ iesys_cryptossl_mlkem_encapsulate(TPM2B_PUBLIC *pub_tpm_key,
     TSS2_RC       r = TSS2_RC_SUCCESS;
     EVP_PKEY     *pkey = NULL;
     EVP_PKEY_CTX *ctx = NULL;
-    OSSL_PARAM params[2] = {0};
+    OSSL_PARAM    params[2] = { 0 };
     const char   *alg_name = NULL;
     size_t        ct_len = 0;
     size_t        ss_len = 0;
@@ -1055,50 +1055,44 @@ iesys_cryptossl_mlkem_encapsulate(TPM2B_PUBLIC *pub_tpm_key,
     }
 
     /* Load the ML-KEM public key from the TPM public area */
-    params[0] = OSSL_PARAM_construct_octet_string("pub_key",
-        (void *)pub_tpm_key->publicArea.unique.mlkem.buffer,
+    params[0] = OSSL_PARAM_construct_octet_string(
+        "pub_key", (void *)pub_tpm_key->publicArea.unique.mlkem.buffer,
         pub_tpm_key->publicArea.unique.mlkem.size);
     params[1] = OSSL_PARAM_construct_end();
 
     ctx = EVP_PKEY_CTX_new_from_name(NULL, alg_name, NULL);
     if (ctx == NULL) {
-        goto_error(r, TSS2_ESYS_RC_GENERAL_FAILURE,
-                   "Create EVP_PKEY_CTX for ML-KEM", cleanup);
+        goto_error(r, TSS2_ESYS_RC_GENERAL_FAILURE, "Create EVP_PKEY_CTX for ML-KEM", cleanup);
     }
 
-    if (EVP_PKEY_fromdata_init(ctx) <= 0 ||
-        EVP_PKEY_fromdata(ctx, &pkey, EVP_PKEY_PUBLIC_KEY, params) <= 0) {
-        goto_error(r, TSS2_ESYS_RC_GENERAL_FAILURE,
-                   "Load ML-KEM public key", cleanup);
+    if (EVP_PKEY_fromdata_init(ctx) <= 0
+        || EVP_PKEY_fromdata(ctx, &pkey, EVP_PKEY_PUBLIC_KEY, params) <= 0) {
+        goto_error(r, TSS2_ESYS_RC_GENERAL_FAILURE, "Load ML-KEM public key", cleanup);
     }
 
     EVP_PKEY_CTX_free(ctx);
     ctx = EVP_PKEY_CTX_new_from_pkey(NULL, pkey, NULL);
     if (ctx == NULL) {
-        goto_error(r, TSS2_ESYS_RC_GENERAL_FAILURE,
-                   "Create encapsulate context", cleanup);
+        goto_error(r, TSS2_ESYS_RC_GENERAL_FAILURE, "Create encapsulate context", cleanup);
     }
 
     if (EVP_PKEY_encapsulate_init(ctx, NULL) <= 0) {
-        goto_error(r, TSS2_ESYS_RC_GENERAL_FAILURE,
-                   "Initialize encapsulation", cleanup);
+        goto_error(r, TSS2_ESYS_RC_GENERAL_FAILURE, "Initialize encapsulation", cleanup);
     }
 
     /* Get required output sizes */
     if (EVP_PKEY_encapsulate(ctx, NULL, &ct_len, NULL, &ss_len) <= 0) {
-        goto_error(r, TSS2_ESYS_RC_GENERAL_FAILURE,
-                   "Get encapsulation output sizes", cleanup);
+        goto_error(r, TSS2_ESYS_RC_GENERAL_FAILURE, "Get encapsulation output sizes", cleanup);
     }
 
     if (ct_len > max_out_ciphertext || ss_len > max_out_shared_secret) {
-        goto_error(r, TSS2_ESYS_RC_BAD_VALUE,
-                   "Output buffer too small for KEM encapsulation", cleanup);
+        goto_error(r, TSS2_ESYS_RC_BAD_VALUE, "Output buffer too small for KEM encapsulation",
+                   cleanup);
     }
 
     /* Perform encapsulation */
     if (EVP_PKEY_encapsulate(ctx, ciphertext, &ct_len, shared_secret, &ss_len) <= 0) {
-        goto_error(r, TSS2_ESYS_RC_GENERAL_FAILURE,
-                   "ML-KEM encapsulation failed", cleanup);
+        goto_error(r, TSS2_ESYS_RC_GENERAL_FAILURE, "ML-KEM encapsulation failed", cleanup);
     }
 
     *ciphertext_size = ct_len;

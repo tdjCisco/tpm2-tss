@@ -15,11 +15,10 @@
 #include "tss2_tpm2_types.h" // for TPM2B_MAX_BUFFER, TPMI_DH_OBJECT, TPMT_SIGNATURE
 
 TSS2_RC
-Tss2_Sys_SignSequenceComplete_Prepare(TSS2_SYS_CONTEXT        *sysContext,
-                                      TPMI_DH_OBJECT           sequenceHandle,
-                                      TPMI_DH_OBJECT           keyHandle,
-                                      const TPM2B_MAX_BUFFER  *buffer)
-{
+Tss2_Sys_SignSequenceComplete_Prepare(TSS2_SYS_CONTEXT       *sysContext,
+                                      TPMI_DH_OBJECT          sequenceHandle,
+                                      TPMI_DH_OBJECT          keyHandle,
+                                      const TPM2B_MAX_BUFFER *buffer) {
     TSS2_SYS_CONTEXT_BLOB *ctx = syscontext_cast(sysContext);
     TSS2_RC                rval;
 
@@ -30,8 +29,7 @@ Tss2_Sys_SignSequenceComplete_Prepare(TSS2_SYS_CONTEXT        *sysContext,
     if (rval)
         return rval;
 
-    rval = Tss2_MU_UINT32_Marshal(sequenceHandle, ctx->cmdBuffer, ctx->maxCmdSize,
-                                  &ctx->nextData);
+    rval = Tss2_MU_UINT32_Marshal(sequenceHandle, ctx->cmdBuffer, ctx->maxCmdSize, &ctx->nextData);
     if (rval)
         return rval;
 
@@ -58,9 +56,7 @@ Tss2_Sys_SignSequenceComplete_Prepare(TSS2_SYS_CONTEXT        *sysContext,
 }
 
 TSS2_RC
-Tss2_Sys_SignSequenceComplete_Complete(TSS2_SYS_CONTEXT *sysContext,
-                                       TPMT_SIGNATURE   *signature)
-{
+Tss2_Sys_SignSequenceComplete_Complete(TSS2_SYS_CONTEXT *sysContext, TPMT_SIGNATURE *signature) {
     TSS2_SYS_CONTEXT_BLOB *ctx = syscontext_cast(sysContext);
     TSS2_RC                rval;
 
@@ -82,8 +78,7 @@ Tss2_Sys_SignSequenceComplete(TSS2_SYS_CONTEXT             *sysContext,
                               TSS2L_SYS_AUTH_COMMAND const *cmdAuthsArray,
                               const TPM2B_MAX_BUFFER       *buffer,
                               TPMT_SIGNATURE               *signature,
-                              TSS2L_SYS_AUTH_RESPONSE      *rspAuthsArray)
-{
+                              TSS2L_SYS_AUTH_RESPONSE      *rspAuthsArray) {
     TSS2_SYS_CONTEXT_BLOB *ctx = syscontext_cast(sysContext);
     TSS2_RC                rval;
 

@@ -45,29 +45,28 @@
 
 /* ML-DSA Size Constants */
 #define TPM2_MLDSA_PRIVATE_KEY_SEED_SIZE 32
-#define TPM2_MLDSA_44_PUB_SIZE           1312   /* ML-DSA-44 public key */
-#define TPM2_MLDSA_44_SIG_SIZE           2420   /* ML-DSA-44 signature */
-#define TPM2_MLDSA_65_PUB_SIZE           1952   /* ML-DSA-65 public key */
-#define TPM2_MLDSA_65_SIG_SIZE           3309   /* ML-DSA-65 signature */
-#define TPM2_MLDSA_87_PUB_SIZE           2592   /* ML-DSA-87 public key */
-#define TPM2_MLDSA_87_SIG_SIZE           4627   /* ML-DSA-87 signature */
-#define TPM2_MLDSA_CTX_MAX_SIZE           255    /* Context string max size */
+#define TPM2_MLDSA_44_PUB_SIZE           1312 /* ML-DSA-44 public key */
+#define TPM2_MLDSA_44_SIG_SIZE           2420 /* ML-DSA-44 signature */
+#define TPM2_MLDSA_65_PUB_SIZE           1952 /* ML-DSA-65 public key */
+#define TPM2_MLDSA_65_SIG_SIZE           3309 /* ML-DSA-65 signature */
+#define TPM2_MLDSA_87_PUB_SIZE           2592 /* ML-DSA-87 public key */
+#define TPM2_MLDSA_87_SIG_SIZE           4627 /* ML-DSA-87 signature */
+#define TPM2_MLDSA_CTX_MAX_SIZE          255  /* Context string max size */
 #define TPM2_MAX_MLDSA_PUB_SIZE          TPM2_MLDSA_87_PUB_SIZE
 #define TPM2_MAX_MLDSA_SIG_SIZE          TPM2_MLDSA_87_SIG_SIZE
 
 /* ML-KEM Individual Parameter Set Sizes */
 #define TPM2_MLKEM_PRIVATE_KEY_SEED_SIZE  64
 #define TPM2_MLKEM_SHARED_SECRET_SIZE     32
-#define TPM2_MLKEM_512_PUB_SIZE           800    /* ML-KEM-512 public key */
-#define TPM2_MLKEM_512_CT_SIZE            768    /* ML-KEM-512 ciphertext */
-#define TPM2_MLKEM_768_PUB_SIZE           1184   /* ML-KEM-768 public key */
-#define TPM2_MLKEM_768_CT_SIZE            1088   /* ML-KEM-768 ciphertext */
-#define TPM2_MLKEM_1024_PUB_SIZE          1568   /* ML-KEM-1024 public key */
-#define TPM2_MLKEM_1024_CT_SIZE           1568   /* ML-KEM-1024 ciphertext */
+#define TPM2_MLKEM_512_PUB_SIZE           800  /* ML-KEM-512 public key */
+#define TPM2_MLKEM_512_CT_SIZE            768  /* ML-KEM-512 ciphertext */
+#define TPM2_MLKEM_768_PUB_SIZE           1184 /* ML-KEM-768 public key */
+#define TPM2_MLKEM_768_CT_SIZE            1088 /* ML-KEM-768 ciphertext */
+#define TPM2_MLKEM_1024_PUB_SIZE          1568 /* ML-KEM-1024 public key */
+#define TPM2_MLKEM_1024_CT_SIZE           1568 /* ML-KEM-1024 ciphertext */
 #define TPM2_MAX_MLKEM_PUB_SIZE           TPM2_MLKEM_1024_PUB_SIZE
 #define TPM2_MAX_MLKEM_CT_SIZE            TPM2_MLKEM_1024_CT_SIZE
 #define TPM2_MAX_MLKEM_SHARED_SECRET_SIZE TPM2_MLKEM_SHARED_SECRET_SIZE
-
 
 /* Capability buffer sizes*/
 #define TPM2_LABEL_MAX_BUFFER 32
@@ -170,18 +169,18 @@ typedef UINT16 TPM2_ECC_CURVE;
 /* Definition of TPMI_MLKEM_PARAMS Constants */
 typedef UINT16 TPMI_MLKEM_PARMS;
 #define TYPE_OF_TPM_MLKEM_PARMS UINT16
-#define TPM2_MLKEM_PARMS_NONE         ((TPMI_MLKEM_PARMS)0x0000)
-#define TPM2_MLKEM_PARMS_512          ((TPMI_MLKEM_PARMS)0x0001)
-#define TPM2_MLKEM_PARMS_768          ((TPMI_MLKEM_PARMS)0x0002)
-#define TPM2_MLKEM_PARMS_1024         ((TPMI_MLKEM_PARMS)0x0003)
+#define TPM2_MLKEM_PARMS_NONE   ((TPMI_MLKEM_PARMS)0x0000)
+#define TPM2_MLKEM_PARMS_512    ((TPMI_MLKEM_PARMS)0x0001)
+#define TPM2_MLKEM_PARMS_768    ((TPMI_MLKEM_PARMS)0x0002)
+#define TPM2_MLKEM_PARMS_1024   ((TPMI_MLKEM_PARMS)0x0003)
 
 /* Definition of TPMI_MLDSA_PARMS Constants */
 typedef UINT16 TPMI_MLDSA_PARMS;
 #define TYPE_OF_TPM_MLDSA_PARMS UINT16
-#define TPM2_MLDSA_PARMS_NONE         ((TPMI_MLDSA_PARMS)0x0000)
-#define TPM2_MLDSA_PARMS_44           ((TPMI_MLDSA_PARMS)0x0001)
-#define TPM2_MLDSA_PARMS_65           ((TPMI_MLDSA_PARMS)0x0002)
-#define TPM2_MLDSA_PARMS_87           ((TPMI_MLDSA_PARMS)0x0003)
+#define TPM2_MLDSA_PARMS_NONE   ((TPMI_MLDSA_PARMS)0x0000)
+#define TPM2_MLDSA_PARMS_44     ((TPMI_MLDSA_PARMS)0x0001)
+#define TPM2_MLDSA_PARMS_65     ((TPMI_MLDSA_PARMS)0x0002)
+#define TPM2_MLDSA_PARMS_87     ((TPMI_MLDSA_PARMS)0x0003)
 
 /* From TPM 2.0 Part 2: Definition of TPM2_CC Constants */
 typedef UINT32 TPM2_CC;
@@ -2563,17 +2562,17 @@ typedef struct TPMS_SIGNATURE_HASH_MLDSA {
 /* Definition of TPMU_SIGNATURE Union <INOUT S> */
 typedef union TPMU_SIGNATURE TPMU_SIGNATURE;
 union TPMU_SIGNATURE {
-    TPMS_SIGNATURE_RSASSA    rsassa;    /* all asymmetric signatures */
-    TPMS_SIGNATURE_RSAPSS    rsapss;    /* all asymmetric signatures */
-    TPMS_SIGNATURE_ECDSA     ecdsa;     /* all asymmetric signatures */
-    TPMS_SIGNATURE_ECDAA     ecdaa;     /* all asymmetric signatures */
-    TPMS_SIGNATURE_SM2       sm2;       /* all asymmetric signatures */
-    TPMS_SIGNATURE_ECSCHNORR ecschnorr; /* all asymmetric signatures */
-    TPM2B_SIGNATURE_MLDSA    mldsa;     /* ML-DSA signature */
+    TPMS_SIGNATURE_RSASSA     rsassa;     /* all asymmetric signatures */
+    TPMS_SIGNATURE_RSAPSS     rsapss;     /* all asymmetric signatures */
+    TPMS_SIGNATURE_ECDSA      ecdsa;      /* all asymmetric signatures */
+    TPMS_SIGNATURE_ECDAA      ecdaa;      /* all asymmetric signatures */
+    TPMS_SIGNATURE_SM2        sm2;        /* all asymmetric signatures */
+    TPMS_SIGNATURE_ECSCHNORR  ecschnorr;  /* all asymmetric signatures */
+    TPM2B_SIGNATURE_MLDSA     mldsa;      /* ML-DSA signature */
     TPMS_SIGNATURE_HASH_MLDSA hash_mldsa; /* Hash-ML-DSA signature (hash + signature) */
-    TPMT_HA                  hmac;      /* HMAC signature required to be supported */
-    TPMS_SCHEME_HASH         any;       /* used to access the hash */
-    TPMS_EMPTY               null;      /* TPM2_ALG_NULL */
+    TPMT_HA                   hmac;       /* HMAC signature required to be supported */
+    TPMS_SCHEME_HASH          any;        /* used to access the hash */
+    TPMS_EMPTY                null;       /* TPM2_ALG_NULL */
 };
 
 /* Definition of TPMT_SIGNATURE Structure */
@@ -2632,11 +2631,11 @@ typedef struct TPM2B_PRIVATE_KEY_MLDSA {
 /* Definition of TPMU_PUBLIC_ID Union <INOUT S> */
 typedef union TPMU_PUBLIC_ID TPMU_PUBLIC_ID;
 union TPMU_PUBLIC_ID {
-    TPM2B_DIGEST         keyedHash;
-    TPM2B_DIGEST         sym;
-    TPM2B_PUBLIC_KEY_RSA rsa;
-    TPMS_ECC_POINT       ecc;
-    TPMS_DERIVE          derive;
+    TPM2B_DIGEST           keyedHash;
+    TPM2B_DIGEST           sym;
+    TPM2B_PUBLIC_KEY_RSA   rsa;
+    TPMS_ECC_POINT         ecc;
+    TPMS_DERIVE            derive;
     TPM2B_PUBLIC_KEY_MLKEM mlkem;
     TPM2B_PUBLIC_KEY_MLDSA mldsa;
 };
@@ -2706,11 +2705,11 @@ struct TPMS_ECC_PARMS {
 /* Definition of TPMS_MLKEM_PARMS Structure */
 typedef struct TPMS_MLKEM_PARMS TPMS_MLKEM_PARMS;
 struct TPMS_MLKEM_PARMS {
-    TPMT_SYM_DEF_OBJECT symmetric;    /* for a restricted decryption key shall be set to a
-                                         supported symmetric algorithm key size and mode. if the
-                                         key is not a restricted decryption key this field shall
-                                         be set to TPM2_ALG_NULL. */
-    TPMI_MLKEM_PARMS    parameterSet; /* ML-KEM parameter set (512, 768, or 1024) */
+    TPMT_SYM_DEF_OBJECT symmetric; /* for a restricted decryption key shall be set to a
+                                      supported symmetric algorithm key size and mode. if the
+                                      key is not a restricted decryption key this field shall
+                                      be set to TPM2_ALG_NULL. */
+    TPMI_MLKEM_PARMS parameterSet; /* ML-KEM parameter set (512, 768, or 1024) */
 };
 
 /* Definition of ML-KEM TPM2B_KEM_CIPHERTEXT Structure */
@@ -2739,7 +2738,7 @@ typedef struct TPMS_HASH_MLDSA_PARMS {
 } TPMS_HASH_MLDSA_PARMS;
 
 /* ML-DSA Signature Context Types for Hash-based Signing */
-#define TPM2_MLDSA_CTX_MAX_SIZE 255
+#define TPM2_MLDSA_CTX_MAX_SIZE      255
 #define TPM2_MAX_SIGNATURE_HINT_SIZE TPM2_MAX_ECC_KEY_BYTES
 
 typedef union TPMU_SIGNATURE_CTX TPMU_SIGNATURE_CTX;
@@ -2760,13 +2759,13 @@ typedef struct TPM2B_SIGNATURE_HINT {
 /* Definition of TPMU_PUBLIC_PARMS Union <INOUT S> */
 typedef union TPMU_PUBLIC_PARMS TPMU_PUBLIC_PARMS;
 union TPMU_PUBLIC_PARMS {
-    TPMS_KEYEDHASH_PARMS keyedHashDetail; /* sign  decrypt  neither */
-    TPMS_SYMCIPHER_PARMS symDetail;       /* a symmetric block cipher */
-    TPMS_RSA_PARMS       rsaDetail;       /* decrypt + sign2 */
-    TPMS_ECC_PARMS       eccDetail;       /* decrypt + sign2 */
-    TPMS_ASYM_PARMS      asymDetail;      /* common scheme structure for RSA and ECC keys */
-    TPMS_MLKEM_PARMS     mlkemDetail;     /* ML-KEM decrypt */
-    TPMS_MLDSA_PARMS     mldsaDetail;     /* ML-DSA sign */
+    TPMS_KEYEDHASH_PARMS  keyedHashDetail;  /* sign  decrypt  neither */
+    TPMS_SYMCIPHER_PARMS  symDetail;        /* a symmetric block cipher */
+    TPMS_RSA_PARMS        rsaDetail;        /* decrypt + sign2 */
+    TPMS_ECC_PARMS        eccDetail;        /* decrypt + sign2 */
+    TPMS_ASYM_PARMS       asymDetail;       /* common scheme structure for RSA and ECC keys */
+    TPMS_MLKEM_PARMS      mlkemDetail;      /* ML-KEM decrypt */
+    TPMS_MLDSA_PARMS      mldsaDetail;      /* ML-DSA sign */
     TPMS_HASH_MLDSA_PARMS hash_mldsaDetail; /* Hash-based ML-DSA sign */
 };
 

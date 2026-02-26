@@ -45,18 +45,18 @@
  * @retval TSS2_RCs produced by lower layers of the software stack.
  */
 TSS2_RC
-Esys_SignSequenceComplete(ESYS_CONTEXT            *esysContext,
-                          ESYS_TR                  sequenceHandle,
-                          ESYS_TR                  keyHandle,
-                          ESYS_TR                  shandle1,
-                          ESYS_TR                  shandle2,
-                          ESYS_TR                  shandle3,
-                          const TPM2B_MAX_BUFFER  *buffer,
-                          TPMT_SIGNATURE         **signature) {
+Esys_SignSequenceComplete(ESYS_CONTEXT           *esysContext,
+                          ESYS_TR                 sequenceHandle,
+                          ESYS_TR                 keyHandle,
+                          ESYS_TR                 shandle1,
+                          ESYS_TR                 shandle2,
+                          ESYS_TR                 shandle3,
+                          const TPM2B_MAX_BUFFER *buffer,
+                          TPMT_SIGNATURE        **signature) {
     TSS2_RC r;
 
-    r = Esys_SignSequenceComplete_Async(esysContext, sequenceHandle, keyHandle, shandle1,
-                                         shandle2, shandle3, buffer);
+    r = Esys_SignSequenceComplete_Async(esysContext, sequenceHandle, keyHandle, shandle1, shandle2,
+                                        shandle3, buffer);
     return_if_error(r, "Error in async function");
 
     /* Set the timeout to indefinite for now, since we want _Finish to block */
@@ -102,13 +102,13 @@ Esys_SignSequenceComplete(ESYS_CONTEXT            *esysContext,
  * @retval TSS2_RCs produced by lower layers of the software stack.
  */
 TSS2_RC
-Esys_SignSequenceComplete_Async(ESYS_CONTEXT            *esysContext,
-                                ESYS_TR                  sequenceHandle,
-                                ESYS_TR                  keyHandle,
-                                ESYS_TR                  shandle1,
-                                ESYS_TR                  shandle2,
-                                ESYS_TR                  shandle3,
-                                const TPM2B_MAX_BUFFER  *buffer) {
+Esys_SignSequenceComplete_Async(ESYS_CONTEXT           *esysContext,
+                                ESYS_TR                 sequenceHandle,
+                                ESYS_TR                 keyHandle,
+                                ESYS_TR                 shandle1,
+                                ESYS_TR                 shandle2,
+                                ESYS_TR                 shandle3,
+                                const TPM2B_MAX_BUFFER *buffer) {
     TSS2_RC r;
     LOG_TRACE("context=%p, sequenceHandle=%" PRIx32 ", keyHandle=%" PRIx32 ", buffer=%p",
               esysContext, sequenceHandle, keyHandle, buffer);
@@ -138,7 +138,8 @@ Esys_SignSequenceComplete_Async(ESYS_CONTEXT            *esysContext,
     return_state_if_error(r, ESYS_STATE_INIT, "keyHandle unknown.");
 
     /* Initial invocation of SAPI to prepare the command buffer with parameters */
-    r = Tss2_Sys_SignSequenceComplete_Prepare(esysContext->sys,
+    r = Tss2_Sys_SignSequenceComplete_Prepare(
+        esysContext->sys,
         (sequenceHandleNode == NULL) ? TPM2_RH_NULL : sequenceHandleNode->rsrc.handle,
         (keyHandleNode == NULL) ? TPM2_RH_NULL : keyHandleNode->rsrc.handle, buffer);
     return_state_if_error(r, ESYS_STATE_INIT, "SAPI Prepare returned error.");
@@ -268,7 +269,7 @@ Esys_SignSequenceComplete_Finish(ESYS_CONTEXT *esysContext, TPMT_SIGNATURE **sig
      * to deliver the result.
      */
     r = Tss2_Sys_SignSequenceComplete_Complete(esysContext->sys,
-                                                (signature != NULL) ? *signature : NULL);
+                                               (signature != NULL) ? *signature : NULL);
     goto_state_if_error(r, ESYS_STATE_INTERNALERROR, "Received error from SAPI unmarshaling",
                         error_cleanup);
 

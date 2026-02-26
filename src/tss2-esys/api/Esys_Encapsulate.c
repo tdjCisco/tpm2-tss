@@ -44,13 +44,13 @@
  * @retval TSS2_RCs produced by lower layers of the software stack.
  */
 TSS2_RC
-Esys_Encapsulate(ESYS_CONTEXT             *esysContext,
-                  ESYS_TR                   keyHandle,
-                  ESYS_TR                   shandle1,
-                  ESYS_TR                   shandle2,
-                  ESYS_TR                   shandle3,
-                  TPM2B_KEM_CIPHERTEXT    **ciphertext,
-                  TPM2B_SHARED_SECRET     **secret) {
+Esys_Encapsulate(ESYS_CONTEXT          *esysContext,
+                 ESYS_TR                keyHandle,
+                 ESYS_TR                shandle1,
+                 ESYS_TR                shandle2,
+                 ESYS_TR                shandle3,
+                 TPM2B_KEM_CIPHERTEXT **ciphertext,
+                 TPM2B_SHARED_SECRET  **secret) {
     TSS2_RC r;
 
     r = Esys_Encapsulate_Async(esysContext, keyHandle, shandle1, shandle2, shandle3);
@@ -126,8 +126,8 @@ Esys_Encapsulate_Async(ESYS_CONTEXT *esysContext,
     return_state_if_error(r, ESYS_STATE_INIT, "keyHandle unknown.");
 
     /* Initial invocation of SAPI to prepare the command buffer with parameters */
-    r = Tss2_Sys_Encapsulate_Prepare(esysContext->sys,
-        (keyHandleNode == NULL) ? TPM2_RH_NULL : keyHandleNode->rsrc.handle);
+    r = Tss2_Sys_Encapsulate_Prepare(
+        esysContext->sys, (keyHandleNode == NULL) ? TPM2_RH_NULL : keyHandleNode->rsrc.handle);
     return_state_if_error(r, ESYS_STATE_INIT, "SAPI Prepare returned error.");
 
     /* Calculate the cpHash Values */
@@ -180,9 +180,9 @@ Esys_Encapsulate_Async(ESYS_CONTEXT *esysContext,
  * @retval TSS2_RCs produced by lower layers of the software stack.
  */
 TSS2_RC
-Esys_Encapsulate_Finish(ESYS_CONTEXT         *esysContext,
-                         TPM2B_KEM_CIPHERTEXT **ciphertext,
-                         TPM2B_SHARED_SECRET   **secret) {
+Esys_Encapsulate_Finish(ESYS_CONTEXT          *esysContext,
+                        TPM2B_KEM_CIPHERTEXT **ciphertext,
+                        TPM2B_SHARED_SECRET  **secret) {
     TSS2_RC r;
     LOG_TRACE("context=%p, ciphertext=%p, secret=%p", esysContext, ciphertext, secret);
 
@@ -267,10 +267,10 @@ Esys_Encapsulate_Finish(ESYS_CONTEXT         *esysContext,
      * After the verification of the response we call the complete function
      * to deliver the result.
      */
-    r = Tss2_Sys_Encapsulate_Complete(esysContext->sys,
-                                       (secret != NULL) ? *secret : NULL,
-                                       (ciphertext != NULL) ? *ciphertext : NULL);
-    goto_state_if_error(r, ESYS_STATE_INTERNALERROR, "Received error from SAPI unmarshaling", error_cleanup);
+    r = Tss2_Sys_Encapsulate_Complete(esysContext->sys, (secret != NULL) ? *secret : NULL,
+                                      (ciphertext != NULL) ? *ciphertext : NULL);
+    goto_state_if_error(r, ESYS_STATE_INTERNALERROR, "Received error from SAPI unmarshaling",
+                        error_cleanup);
 
     esysContext->state = ESYS_STATE_INIT;
     return TSS2_RC_SUCCESS;
