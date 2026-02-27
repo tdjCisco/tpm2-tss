@@ -434,8 +434,17 @@ Esys_StartAuthSession_Finish(ESYS_CONTEXT *esysContext, ESYS_TR *sessionHandle) 
         /* compute session key except for an unbound session */
         if (!(bind == ESYS_TR_RH_NULL && tpmKey == ESYS_TR_NONE)) {
             size_t secret_size = 0;
-            if (tpmKey != ESYS_TR_NONE)
-                secret_size += keyHash_size;
+            size_t salt_size = 0;
+            if (tpmKey != ESYS_TR_NONE) {
+                /* For ML-KEM, the salt is the shared secret (fixed 32 bytes).
+                 * For RSA/ECC, the salt size equals the key's nameAlg digest size. */
+                if (tpmKeyNode != NULL
+                    && tpmKeyNode->rsrc.misc.rsrc_key_pub.publicArea.type == TPM2_ALG_MLKEM)
+                    salt_size = esysContext->salt.size;
+                else
+                    salt_size = keyHash_size;
+                secret_size += salt_size;
+            }
             if (bind != ESYS_TR_NONE && bindNode != NULL)
                 secret_size += bindNode->auth.size;
             /*
@@ -452,7 +461,7 @@ Esys_StartAuthSession_Finish(ESYS_CONTEXT *esysContext, ESYS_TR *sessionHandle) 
             if (tpmKey != ESYS_TR_NONE)
                 memcpy(
                     &secret[(bind == ESYS_TR_NONE || bindNode == NULL) ? 0 : bindNode->auth.size],
-                    &esysContext->salt.buffer[0], keyHash_size);
+                    &esysContext->salt.buffer[0], salt_size);
             if (bind != ESYS_TR_NONE && bindNode != NULL)
                 iesys_compute_bound_entity(&bindNode->rsrc.name, &bindNode->auth,
                                            &sessionHandleNode->rsrc.misc.rsrc_session.bound_entity);

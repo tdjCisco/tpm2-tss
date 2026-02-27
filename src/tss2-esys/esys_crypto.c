@@ -107,6 +107,19 @@ iesys_crypto_rsa_pk_encrypt(ESYS_CRYPTO_CALLBACKS *crypto_cb,
 }
 
 TSS2_RC
+iesys_crypto_mlkem_encapsulate(ESYS_CRYPTO_CALLBACKS *crypto_cb,
+                               TPM2B_PUBLIC          *pub_tpm_key,
+                               size_t                 max_out_ciphertext,
+                               BYTE                  *ciphertext,
+                               size_t                *ciphertext_size,
+                               size_t                 max_out_shared_secret,
+                               BYTE                  *shared_secret,
+                               size_t                *shared_secret_size) {
+    DO_CALLBACK(mlkem_encapsulate, pub_tpm_key, max_out_ciphertext, ciphertext, ciphertext_size,
+                max_out_shared_secret, shared_secret, shared_secret_size);
+}
+
+TSS2_RC
 iesys_crypto_hash_start(ESYS_CRYPTO_CALLBACKS     *crypto_cb,
                         ESYS_CRYPTO_CONTEXT_BLOB **context,
                         TPM2_ALG_ID                hashAlg) {
@@ -735,6 +748,7 @@ ieys_set_crypto_callbacks(ESYS_CRYPTO_CALLBACKS *crypto_cb, ESYS_CRYPTO_CALLBACK
         crypto_cb->init = iesys_crypto_init_internal;
         crypto_cb->get_random2b = iesys_crypto_get_random2b_internal;
         crypto_cb->rsa_pk_encrypt = iesys_crypto_rsa_pk_encrypt_internal;
+        crypto_cb->mlkem_encapsulate = iesys_crypto_mlkem_encapsulate_internal;
 
     } else {
 
@@ -754,6 +768,12 @@ ieys_set_crypto_callbacks(ESYS_CRYPTO_CALLBACKS *crypto_cb, ESYS_CRYPTO_CALLBACK
         TEST_AND_SET_CALLBACK(crypto_cb, user_cb, get_ecdh_point);
         TEST_AND_SET_CALLBACK(crypto_cb, user_cb, get_random2b);
         TEST_AND_SET_CALLBACK(crypto_cb, user_cb, rsa_pk_encrypt);
+        /* kem_encapsulate is optional */
+        if (user_cb->mlkem_encapsulate) {
+            crypto_cb->mlkem_encapsulate = user_cb->mlkem_encapsulate;
+        } else {
+            crypto_cb->mlkem_encapsulate = iesys_crypto_mlkem_encapsulate_internal;
+        }
 
         TEST_AND_SET_CALLBACK(crypto_cb, user_cb, hash_abort);
         TEST_AND_SET_CALLBACK(crypto_cb, user_cb, hash_finish);

@@ -373,6 +373,7 @@ iesys_compute_encrypted_salt(ESYS_CONTEXT           *esys_context,
     TSS2_RC             r = TSS2_RC_SUCCESS;
     size_t              keyHash_size = 0;
     size_t              cSize = 0;
+    size_t              ss_size = 0;
     TPM2B_ECC_PARAMETER Z; /* X coordinate of privKey*publicKey */
     TPMS_ECC_POINT      Q; /* Public point of ephemeral key */
 
@@ -422,6 +423,23 @@ iesys_compute_encrypted_salt(ESYS_CONTEXT           *esys_context,
         return_if_error(r, "During KDFe computation.");
         esys_context->salt.size = keyHash_size;
         break;
+    case TPM2_ALG_MLKEM: {
+
+        /* Perform ML-KEM encapsulation against the public key.
+         * This produces a ciphertext (sent to TPM as encryptedSalt)
+         * and a shared secret (used as the salt for session key derivation). */
+        r = iesys_crypto_mlkem_encapsulate(
+            &esys_context->crypto_backend, &pub, sizeof(TPMU_ENCRYPTED_SECRET),
+            (BYTE *)&encryptedSalt->secret[0], &cSize, sizeof(esys_context->salt.buffer),
+            &esys_context->salt.buffer[0], &ss_size);
+        return_if_error(r, "During ML-KEM encapsulation.");
+
+        encryptedSalt->size = cSize;
+        esys_context->salt.size = ss_size;
+        LOGBLOB_DEBUG(&encryptedSalt->secret[0], cSize, "IESYS ML-KEM ciphertext");
+        LOGBLOB_DEBUG(&esys_context->salt.buffer[0], ss_size, "IESYS ML-KEM shared secret (salt)");
+        break;
+    }
     default:
         LOG_ERROR("Not implemented");
         return TSS2_ESYS_RC_GENERAL_FAILURE;
