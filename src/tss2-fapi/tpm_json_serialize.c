@@ -1215,7 +1215,8 @@ ifapi_json_TPMI_RH_NV_INDEX_serialize(const TPMI_RH_NV_INDEX in, json_object **j
 TSS2_RC
 ifapi_json_TPMI_ALG_HASH_serialize(const TPMI_ALG_HASH in, json_object **jso) {
     CHECK_IN_LIST(TPMI_ALG_HASH, in, TPM2_ALG_SHA1, TPM2_ALG_SHA256, TPM2_ALG_SHA384,
-                  TPM2_ALG_SHA512, TPM2_ALG_SM3_256, TPM2_ALG_NULL);
+                  TPM2_ALG_SHA512, TPM2_ALG_SHA3_256, TPM2_ALG_SHA3_384, TPM2_ALG_SHA3_512,
+                  TPM2_ALG_SM3_256, TPM2_ALG_NULL);
     return ifapi_json_TPM2_ALG_ID_serialize(in, jso);
 }
 
@@ -1326,6 +1327,18 @@ ifapi_json_TPMU_HA_serialize(const TPMU_HA *in, UINT32 selector, json_object **j
     case TPM2_ALG_SHA512:
         size = TPM2_SHA512_DIGEST_SIZE;
         buffer = &in->sha512[0];
+        break;
+    case TPM2_ALG_SHA3_256:
+        size = TPM2_SHA3_256_DIGEST_SIZE;
+        buffer = &in->sha256[0]; /* same size as SHA256 */
+        break;
+    case TPM2_ALG_SHA3_384:
+        size = TPM2_SHA3_384_DIGEST_SIZE;
+        buffer = &in->sha384[0]; /* same size as SHA384 */
+        break;
+    case TPM2_ALG_SHA3_512:
+        size = TPM2_SHA3_512_DIGEST_SIZE;
+        buffer = &in->sha512[0]; /* same size as SHA512 */
         break;
     case TPM2_ALG_SM3_256:
         size = TPM2_SM3_256_DIGEST_SIZE;

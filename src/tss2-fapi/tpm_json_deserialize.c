@@ -1480,7 +1480,8 @@ ifapi_json_TPMI_RH_NV_INDEX_deserialize(json_object *jso, TPMI_RH_NV_INDEX *out)
 TSS2_RC
 ifapi_json_TPMI_ALG_HASH_deserialize(json_object *jso, TPMI_ALG_HASH *out) {
     SUBTYPE_FILTER(TPMI_ALG_HASH, TPM2_ALG_ID, TPM2_ALG_SHA1, TPM2_ALG_SHA256, TPM2_ALG_SHA384,
-                   TPM2_ALG_SHA512, TPM2_ALG_SM3_256, TPM2_ALG_NULL);
+                   TPM2_ALG_SHA512, TPM2_ALG_SHA3_256, TPM2_ALG_SHA3_384, TPM2_ALG_SHA3_512,
+                   TPM2_ALG_SM3_256, TPM2_ALG_NULL);
 }
 
 /** Deserialize a  TPMI_ALG_SYM json object.
